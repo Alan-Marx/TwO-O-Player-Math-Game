@@ -12,7 +12,6 @@ class Game
   end
 
   def generate_problem
-
       x = rand(21)
       y = rand(21)
       puts "Player #{self.current_player.number}: What does #{x} plus #{y} equal?"
@@ -22,21 +21,10 @@ class Game
         puts "Player #{self.current_player.number}: YES! You are correct!"
       else 
         puts "Player #{self.current_player.number}: Seriously? No!"
-        self.subtract_lives(self.current_player)
+        self.subtract_lives(self.current_player)   
       end
-
-      self.current_player = self.current_player.number == "1" ? self.player_2 : self.player_1
-
-      if self.player_1.lives == 0 || self.player_2.lives == 0
-        puts "Player #{self.current_player.number} wins with a score of #{self.current_player.lives}/3"
-        puts "----- GAME OVER -----"
-        puts "Goodbye!"
-      else 
-        puts "P1: #{self.player_1.lives}/3 vs P2: #{self.player_2.lives}/3"
-        puts "----- NEW TURN -----"
-        self.generate_problem
-      end
-
+      
+      game_over?
   end
 
   def subtract_lives(player)
@@ -45,4 +33,18 @@ class Game
       player.lives = lives
   end
 
+  def game_over?
+    if self.current_player.lives == 0
+      winning_player = self.current_player.number == "1" ? self.player_2 : self.player_1
+      puts "Player #{winning_player.number} wins with a score of #{winning_player.lives}/3"
+      puts "----- GAME OVER -----"
+      puts "Goodbye!"
+    else
+      self.current_player = self.current_player.number == "1" ? self.player_2 : self.player_1
+      puts "P1: #{self.player_1.lives}/3 vs P2: #{self.player_2.lives}/3"
+      puts "----- NEW TURN -----"
+      self.generate_problem
+    end
+  end
+  
 end
